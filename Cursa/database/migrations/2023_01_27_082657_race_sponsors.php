@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('race_sponsors', function (Blueprint $table) {
+            $table->integer('race_id')->unsigned();
+            $table->string('sponsor_cif');
+            $table->foreign('sponsor_cif')->references('cif')->on('sponsors');
+            $table->foreign('race_id')->references('id')->on('races');
+            $table->primary(array('sponsor_cif','race_id'));
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('race_sponsors');
+    }
+};
